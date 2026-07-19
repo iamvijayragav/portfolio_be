@@ -1,7 +1,11 @@
-import { about, achievements, experience, projects, services, skills } from '../data/siteData.js'
+import { about, achievements, experience, projects, profile, services, skills } from '../data/siteData.js'
 
 export function getAbout(req, res) {
   res.json(about)
+}
+
+export function getProfile(req, res) {
+  res.json(profile)
 }
 
 export function getExperience(req, res) {

@@ -12,6 +12,36 @@ export const about = {
   ],
 }
 
+export const profile = {
+  name: 'Vijayaragavan B',
+  initials: 'VB',
+  roles: [
+    'Software Engineer',
+    'Full Stack Developer',
+    'ASP.NET Core Developer',
+    'React Developer',
+    'Node.js Developer',
+    'AI Integration Engineer',
+    'Backend Engineer',
+    'Problem Solver',
+  ],
+  tagline: 'I build enterprise-grade backends, clean React front ends, and wire LLMs into products that ship.',
+  resumeUrl: 'https://drive.google.com/file/d/1Pi1J2eN58AMpxDF8q7J6LEgBy-L0rp9D/view?usp=drive_link',
+  email: 'hiamvijayragav@gmail.com',
+  social: {
+    github: 'https://github.com/iamvijayragav',
+    linkedin: 'https://www.linkedin.com/in/vijayaragavan-baskaran-374736191/',
+    leetcode: 'https://leetcode.com/u/iamvijayragav/',
+    hackerrank: 'https://www.hackerrank.com/profile/iamvijayragav',
+  },
+  stats: [
+    { label: 'Years Experience', value: 2, suffix: '+' },
+    { label: 'Production Projects', value: 2, suffix: '' },
+    { label: 'Technologies Used', value: 20, suffix: '+' },
+    { label: 'Zero-Defect Releases', value: 100, suffix: '%' },
+  ],
+}
+
 export const experience = [
   {
     company: 'Accenture Solutions Pvt Ltd',

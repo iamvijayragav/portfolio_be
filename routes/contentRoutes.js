@@ -3,6 +3,7 @@ import {
   getAbout,
   getAchievements,
   getExperience,
+  getProfile,
   getProjects,
   getServices,
   getSkills,
@@ -11,6 +12,7 @@ import {
 const router = Router()
 
 router.get('/about', getAbout)
+router.get('/profile', getProfile)
 router.get('/experience', getExperience)
 router.get('/projects', getProjects)
 router.get('/services', getServices)

@@ -15,6 +15,7 @@ function createTransporter() {
     host,
     port,
     secure,
+    family: 4,
     auth: {
       user: getEnv('EMAIL_USER'),
       pass: getEnv('EMAIL_PASS'),
