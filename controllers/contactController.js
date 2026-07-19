@@ -22,15 +22,16 @@ function createTransporter() {
       (secure ? getEnv('EMAIL_PORT_TRUE', '465') : getEnv('EMAIL_PORT_FALSE', '587')),
   )
 
+  const provider = service || (host === 'smtp.gmail.com' ? 'gmail' : undefined)
   const transportOptions = {
-    service: service || undefined,
-    host,
+    ...(provider ? { service: provider } : { host }),
     auth: {
       user: getEnv('EMAIL_USER'),
       pass: getEnv('EMAIL_PASS'),
     },
     port,
     secure: secure || port === 465,
+    authMethod: 'LOGIN',
     lookup: (hostname, options, callback) => dns.lookup(hostname, { family: 4, all: false }, callback),
     connectionTimeout: 20000,
     greetingTimeout: 20000,
@@ -38,7 +39,12 @@ function createTransporter() {
     requireTLS: true,
   }
 
-  console.log('SMTP transport options:', { service, host, port, secure: transportOptions.secure })
+  console.log('SMTP transport options:', {
+    service: provider || null,
+    host: provider ? undefined : host,
+    port,
+    secure: transportOptions.secure,
+  })
 
   return nodemailer.createTransport(transportOptions)
 }
