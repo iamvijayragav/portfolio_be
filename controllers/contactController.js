@@ -10,24 +10,34 @@ function getEnv(name, fallback = '') {
 }
 
 function createTransporter() {
-  const host = getEnv('EMAIL_HOST') || getEnv('EMAIL_SERVICE') || 'smtp.gmail.com'
-  const port = Number(getEnv('EMAIL_SECURE') === 'true' ? getEnv('EMAIL_PORT_TRUE', '465') : getEnv('EMAIL_PORT_FALSE', '587'))
-  const secure = getEnv('EMAIL_SECURE') === 'true'
+  const service = getEnv('EMAIL_SERVICE')
+  const host = service ? undefined : getEnv('EMAIL_HOST', 'smtp.gmail.com')
+  const secureEnv = getEnv('EMAIL_SECURE')
+  const secure = secureEnv ? secureEnv === 'true' : false
+  const port = Number(
+    getEnv('EMAIL_PORT') ||
+      (secure ? getEnv('EMAIL_PORT_TRUE', '465') : getEnv('EMAIL_PORT_FALSE', '587')),
+  )
 
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure,
-    family: 4,
+  const transportOptions = {
     auth: {
       user: getEnv('EMAIL_USER'),
       pass: getEnv('EMAIL_PASS'),
     },
+    port,
+    secure: secure || port === 465,
     lookup: (hostname, options, callback) => dns.lookup(hostname, { family: 4, all: false }, callback),
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-  })
+    connectionTimeout: 20000,
+    greetingTimeout: 20000,
+    socketTimeout: 20000,
+    requireTLS: true,
+  }
+
+  if (service) {
+    return nodemailer.createTransport({ service, ...transportOptions })
+  }
+
+  return nodemailer.createTransport({ host, ...transportOptions })
 }
 
 function getFromAddress() {
