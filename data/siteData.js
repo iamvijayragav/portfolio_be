@@ -27,7 +27,7 @@ export const profile = {
   ],
   tagline: 'I build enterprise-grade backends, clean React front ends, and wire LLMs into products that ship.',
   resumeUrl: 'https://drive.google.com/file/d/1Pi1J2eN58AMpxDF8q7J6LEgBy-L0rp9D/view?usp=drive_link',
-  email: 'hiamvijayragav@gmail.com',
+  email: 'iamvijayragav@gmail.com',
   social: {
     github: 'https://github.com/iamvijayragav',
     linkedin: 'https://www.linkedin.com/in/vijayaragavan-baskaran-374736191/',
