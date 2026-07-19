@@ -6,12 +6,14 @@ dns.setDefaultResultOrder('ipv4first')
 
 function getEnv(name, fallback = '') {
   const value = process.env[name]
-  return typeof value === 'string' ? value.trim() : fallback
+  if (typeof value !== 'string') return fallback
+  const trimmed = value.trim()
+  return trimmed.length > 0 ? trimmed : fallback
 }
 
 function createTransporter() {
   const service = getEnv('EMAIL_SERVICE')
-  const host = service ? undefined : getEnv('EMAIL_HOST', 'smtp.gmail.com')
+  const host = service ? undefined : (getEnv('EMAIL_HOST') || 'smtp.gmail.com')
   const secureEnv = getEnv('EMAIL_SECURE')
   const secure = secureEnv ? secureEnv === 'true' : false
   const port = Number(
