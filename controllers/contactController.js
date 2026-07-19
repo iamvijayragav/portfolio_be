@@ -1,5 +1,8 @@
+import dns from 'dns'
 import nodemailer from 'nodemailer'
 import Contact from '../models/Contact.js'
+
+dns.setDefaultResultOrder('ipv4first')
 
 function getEnv(name, fallback = '') {
   const value = process.env[name]
@@ -20,6 +23,7 @@ function createTransporter() {
       user: getEnv('EMAIL_USER'),
       pass: getEnv('EMAIL_PASS'),
     },
+    lookup: (hostname, options, callback) => dns.lookup(hostname, { family: 4, all: false }, callback),
     connectionTimeout: 10000,
     greetingTimeout: 10000,
     socketTimeout: 10000,
