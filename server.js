@@ -9,6 +9,7 @@ import { notFound, errorHandler } from './middleware/errorHandler.js'
 dotenv.config()
 
 const app = express()
+app.set('trust proxy', 1)
 const PORT = process.env.PORT || 5000
 const defaultOrigins = ['http://localhost:5173', 'https://vijayaragavan-portfolio.netlify.app']
 const allowedOrigins = [
