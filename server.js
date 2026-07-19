@@ -10,12 +10,22 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
-const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173').split(',').map((o) => o.trim())
+const defaultOrigins = ['http://localhost:5173', 'https://vijayaragavan-portfolio.netlify.app']
+const allowedOrigins = [
+  ...(process.env.CLIENT_ORIGIN ? process.env.CLIENT_ORIGIN.split(',').map((o) => o.trim()) : []),
+  ...defaultOrigins,
+].filter(Boolean)
 
 app.use(
   cors({
-    origin: allowedOrigins,
-    methods: ['GET', 'POST'],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error(`CORS policy blocked origin: ${origin}`))
+      }
+    },
+    methods: ['GET', 'POST', 'OPTIONS'],
   }),
 )
 app.use(express.json({ limit: '10kb' }))
