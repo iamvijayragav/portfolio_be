@@ -13,7 +13,8 @@ function getEnv(name, fallback = '') {
 
 function createTransporter() {
   const service = getEnv('EMAIL_SERVICE')
-  const host = service ? undefined : (getEnv('EMAIL_HOST') || 'smtp.gmail.com')
+  const explicitHost = getEnv('EMAIL_HOST')
+  const host = explicitHost || 'smtp.gmail.com'
   const secureEnv = getEnv('EMAIL_SECURE')
   const secure = secureEnv ? secureEnv === 'true' : false
   const port = Number(
@@ -22,6 +23,8 @@ function createTransporter() {
   )
 
   const transportOptions = {
+    service: service || undefined,
+    host,
     auth: {
       user: getEnv('EMAIL_USER'),
       pass: getEnv('EMAIL_PASS'),
@@ -35,11 +38,9 @@ function createTransporter() {
     requireTLS: true,
   }
 
-  if (service) {
-    return nodemailer.createTransport({ service, ...transportOptions })
-  }
+  console.log('SMTP transport options:', { service, host, port, secure: transportOptions.secure })
 
-  return nodemailer.createTransport({ host, ...transportOptions })
+  return nodemailer.createTransport(transportOptions)
 }
 
 function getFromAddress() {
